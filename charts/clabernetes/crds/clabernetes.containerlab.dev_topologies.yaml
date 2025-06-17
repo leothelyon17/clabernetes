@@ -345,6 +345,14 @@ spec:
                           empty which will end up using your default storage class. Note that currently we assume you
                           have (as default) or provide a dynamically provisionable storage class, hence no selector.
                         type: string
+                      volumeMode:
+                        description: |-
+                          VolumeMode is the volume mode to use for the PVC. This can be "filesystem" or "block" (case
+                          insensitive). If not provided, this defaults to "filesystem". Note that the volume mode is
+                          immutable once the PVC is created, so if you need to change it you will need to delete the
+                          topology and re-create it. If you need to change the volume mode for a node, you will need to
+                          delete the node from the topology and re-add it.
+                        type: string
                     required:
                     - enabled
                     type: object

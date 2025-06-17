@@ -51,6 +51,12 @@ type Persistence struct {
 	// have (as default) or provide a dynamically provisionable storage class, hence no selector.
 	// +optional
 	StorageClassName string `json:"storageClassName,omitempty"`
+	// VolumeMode is the volume mode to use for the PVC. This can be "filesystem" or "block" (case
+	// insensitive). If not provided, this defaults to "filesystem". Note that the volume mode is
+	// immutable once the PVC is created, so if you need to change it you will need to delete the
+	// topology and re-create it. If you need to change the volume mode for a node, you will need to
+	// delete the node from the topology and re-add it.
+	VolumeMode string `json:"volumeMode,omitempty"`
 }
 
 // InsecureRegistries is a slice of strings of insecure registries to configure in the launcher

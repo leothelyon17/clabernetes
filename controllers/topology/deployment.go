@@ -989,6 +989,10 @@ func (r *DeploymentReconciler) renderDeploymentPersistence(
 			Name:      volumeName,
 			ReadOnly:  false,
 			MountPath: fmt.Sprintf("/clabernetes/clab-clabernetes-%s", nodeName),
+			MountPropagation: func() *k8scorev1.MountPropagationMode {
+				mode := k8scorev1.MountPropagationBidirectional
+				return &mode
+			}(),
 		},
 	)
 }
