@@ -958,6 +958,19 @@ func (r *DeploymentReconciler) renderDeploymentDevices(
 	)
 }
 
+// func setVolumeMountPropagation(input string) *k8scorev1.MountPropagationMode {
+// 	switch strings.ToLower(strings.TrimSpace(input)) {
+// 	case "bidirectional":
+// 		mode := k8scorev1.MountPropagationBidirectional
+// 		return &mode
+// 	case "hosttocontainer":
+// 		mode := k8scorev1.MountPropagationHostToContainer
+// 		return &mode
+// 	default:
+// 		return nil
+// 	}
+// }
+
 func (r *DeploymentReconciler) renderDeploymentPersistence(
 	deployment *k8sappsv1.Deployment,
 	nodeName,
@@ -969,6 +982,8 @@ func (r *DeploymentReconciler) renderDeploymentPersistence(
 	}
 
 	volumeName := "containerlab-directory-persistence"
+
+	//mountPropagationMode := owningTopology.Spec.Deployment.Persistence.VolumeMountPropagation
 
 	deployment.Spec.Template.Spec.Volumes = append(
 		deployment.Spec.Template.Spec.Volumes,
@@ -986,13 +1001,10 @@ func (r *DeploymentReconciler) renderDeploymentPersistence(
 	deployment.Spec.Template.Spec.Containers[0].VolumeMounts = append(
 		deployment.Spec.Template.Spec.Containers[0].VolumeMounts,
 		k8scorev1.VolumeMount{
-			Name:      volumeName,
-			ReadOnly:  false,
-			MountPath: fmt.Sprintf("/clabernetes/clab-clabernetes-%s", nodeName),
-			MountPropagation: func() *k8scorev1.MountPropagationMode {
-				mode := k8scorev1.MountPropagationBidirectional
-				return &mode
-			}(),
+			Name:             volumeName,
+			ReadOnly:         false,
+			MountPath:        fmt.Sprintf("/clabernetes/clab-clabernetes-%s", nodeName),
+			//MountPropagation: setVolumeMountPropagation(mountPropagationMode),
 		},
 	)
 }

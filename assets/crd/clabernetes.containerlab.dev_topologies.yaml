@@ -345,6 +345,22 @@ spec:
                           empty which will end up using your default storage class. Note that currently we assume you
                           have (as default) or provide a dynamically provisionable storage class, hence no selector.
                         type: string
+                      # volumeMode:
+                      #   description: |-
+                      #     VolumeMode is the volume mode to use for the PVC. This can be "filesystem" or "block" (case
+                      #     insensitive). If not provided, this defaults to "filesystem". Note that the volume mode is
+                      #     immutable once the PVC is created, so if you need to change it you will need to delete the
+                      #     topology and re-create it. If you need to change the volume mode for a node, you will need to
+                      #     delete the node from the topology and re-add it.
+                      #   type: string
+                      # volumeMountPropagation:
+                      #   description: |-
+                      #     MountPropagation is the mount propagation mode to use for the persistent volume (PV).
+                      #     This can be "HostToContainer", "Bidirectional" or "None" aka empty (which means no mount propagation). If not
+                      #     provided, this defaults to "None" or empty. Note that the mount propagation is immutable once the PV is
+                      #     created, so if you need to change it you will need to delete the topology and re-create it.
+                      #     Bidirectional is typically needed for PVs that use network backed storage, such as CEPH RBD.
+                      #   type: string
                     required:
                     - enabled
                     type: object
