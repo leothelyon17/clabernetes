@@ -2,7 +2,7 @@ package topology
 
 import (
 	"fmt"
-	//"strings"
+	"strings"
 
 	clabernetesapisv1alpha1 "github.com/srl-labs/clabernetes/apis/v1alpha1"
 	clabernetesconfig "github.com/srl-labs/clabernetes/config"
@@ -164,16 +164,16 @@ func (r *PersistentVolumeClaimReconciler) renderPVCSpec(
 		}
 	}
 
-	// var volMode k8scorev1.PersistentVolumeMode
-	// switch strings.ToLower(persistence.VolumeMode) {
-	// case "block":
-	// 	volMode = k8scorev1.PersistentVolumeBlock
-	// default:
-	// 	if persistence.VolumeMode != "" {
-	// 		r.log.Warnf("invalid volumeMode %q; defaulting to Filesystem", persistence.VolumeMode)
-	// 	}
-	// 	volMode = k8scorev1.PersistentVolumeFilesystem
-	// }
+	var volMode k8scorev1.PersistentVolumeMode
+	switch strings.ToLower(persistence.VolumeMode) {
+	case "block":
+		volMode = k8scorev1.PersistentVolumeBlock
+	default:
+		if persistence.VolumeMode != "" {
+			r.log.Warnf("invalid volumeMode %q; defaulting to Filesystem", persistence.VolumeMode)
+		}
+		volMode = k8scorev1.PersistentVolumeFilesystem
+	}
 
 	pvc.Spec = k8scorev1.PersistentVolumeClaimSpec{
 		AccessModes: []k8scorev1.PersistentVolumeAccessMode{
@@ -186,7 +186,7 @@ func (r *PersistentVolumeClaimReconciler) renderPVCSpec(
 		},
 		StorageClassName: storageClassName,
 		// VolumeMode:       clabernetesutil.ToPointer(k8scorev1.PersistentVolumeFilesystem),
-		//VolumeMode: clabernetesutil.ToPointer(volMode),
+		VolumeMode: clabernetesutil.ToPointer(volMode),
 	}
 
 	if existingPVC != nil {

@@ -56,13 +56,13 @@ type Persistence struct {
 	// immutable once the PVC is created, so if you need to change it you will need to delete the
 	// topology and re-create it. If you need to change the volume mode for a node, you will need to
 	// delete the node from the topology and re-add it.
-	//VolumeMode string `json:"volumeMode,omitempty"`
+	VolumeMode string `json:"volumeMode,omitempty"`
 	// MountPropagation is the mount propagation mode to use for the persistent volume (PV).
 	// This can be "HostToContainer", "Bidirectional" or "None" aka empty (which means no mount propagation). If not
 	// provided, this defaults to "None" or empty. Note that the mount propagation is immutable once the PV is
 	// created, so if you need to change it you will need to delete the topology and re-create it.
 	// Bidirectional is typically needed for PVs that use network backed storage, such as CEPH RBD.
-	//VolumeMountPropagation string `json:"volumeMountPropagation,omitempty"`
+	VolumeMountPropagation string `json:"volumeMountPropagation,omitempty"`
 }
 
 // InsecureRegistries is a slice of strings of insecure registries to configure in the launcher
